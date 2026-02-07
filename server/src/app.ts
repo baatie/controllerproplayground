@@ -14,17 +14,23 @@ app.get('/health', (req, res) => {
 });
 
 // Routes
+// Routes
+import authRoutes from './routes/auth';
 import businessRoutes from './routes/businesses';
 import clientRoutes from './routes/clients';
 import invoiceRoutes from './routes/invoices';
 import expenseRoutes from './routes/expenses';
 import budgetRoutes from './routes/budgets';
+import { authenticateToken } from './middleware/auth';
 
-app.use('/api/businesses', businessRoutes);
-app.use('/api/clients', clientRoutes);
-app.use('/api/invoices', invoiceRoutes);
-app.use('/api/expenses', expenseRoutes);
-app.use('/api/budgets', budgetRoutes);
+app.use('/api/auth', authRoutes);
+
+// Protected Routes
+app.use('/api/businesses', authenticateToken, businessRoutes);
+app.use('/api/clients', authenticateToken, clientRoutes);
+app.use('/api/invoices', authenticateToken, invoiceRoutes);
+app.use('/api/expenses', authenticateToken, expenseRoutes);
+app.use('/api/budgets', authenticateToken, budgetRoutes);
 
 // Serve static files
 app.use(express.static(path.join(__dirname, '../public')));

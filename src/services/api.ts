@@ -1,9 +1,19 @@
-import { BusinessProfile, Client, Invoice, Expense, ProjectBudget } from '../types';
+import { BusinessProfile, Client, Invoice, Expense, ProjectBudget } from '../../types';
 
-const API_BASE = '/api';
+const BASE_URL = 'http://localhost:3001/api';
 
-async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
-    const response = await fetch(`${API_BASE}${endpoint}`, options);
+async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+    const token = localStorage.getItem('token');
+    const headers = {
+        'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+        ...options.headers,
+    };
+
+    const response = await fetch(`${BASE_URL}${endpoint}`, {
+        ...options,
+        headers,
+    });
     if (!response.ok) {
         throw new Error(`API Error: ${response.statusText}`);
     }

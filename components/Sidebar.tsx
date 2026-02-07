@@ -16,7 +16,13 @@ interface SidebarProps {
   onClose: () => void;
 }
 
+import { useAuth } from '../src/context/AuthContext';
+
+// ... (Logo component remains same)
+
 const Sidebar: React.FC<SidebarProps> = ({ view, setView, isOpen, onClose }) => {
+  const { logout } = useAuth();
+
   return (
     <aside className={`
       fixed inset-y-0 left-0 z-50 w-64 bg-oak text-maple flex flex-col h-full shrink-0 wood-texture border-r border-oaklight/30 shadow-xl transition-transform duration-300 transform 
@@ -32,11 +38,11 @@ const Sidebar: React.FC<SidebarProps> = ({ view, setView, isOpen, onClose }) => 
           </div>
         </div>
         {/* Close button on mobile */}
-        <button 
+        <button
           onClick={onClose}
           className="lg:hidden p-2 text-white hover:bg-white/10 rounded-lg"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" x2="6" y1="6" y2="18" /><line x1="6" x2="18" y1="6" y2="18" /></svg>
         </button>
       </div>
 
@@ -47,6 +53,10 @@ const Sidebar: React.FC<SidebarProps> = ({ view, setView, isOpen, onClose }) => 
         <NavItem active={view === 'budgeting'} onClick={() => setView('budgeting')} icon={<Icons.Budgets />} label="Project Budgets" />
         <NavItem active={view === 'customers'} onClick={() => setView('customers')} icon={<Icons.Customers />} label="Customers" />
         <NavItem active={view === 'settings'} onClick={() => setView('settings')} icon={<Icons.Settings />} label="Settings" />
+
+        <div className="pt-4 mt-4 border-t border-oaklight/20">
+          <NavItem active={false} onClick={logout} icon={<Icons.Logout />} label="Log Out" />
+        </div>
       </nav>
 
       <div className="p-4 md:p-6 border-t border-oaklight/30 bg-oaklight/5">
@@ -60,13 +70,12 @@ const Sidebar: React.FC<SidebarProps> = ({ view, setView, isOpen, onClose }) => 
 };
 
 const NavItem = ({ active, onClick, icon, label }: { active: boolean, onClick: () => void, icon: React.ReactNode, label: string }) => (
-  <button 
+  <button
     onClick={onClick}
-    className={`w-full flex items-center space-x-4 px-4 md:px-5 py-3 md:py-3.5 rounded-xl transition-all duration-300 group ${
-      active 
-        ? 'bg-purpleheart text-white shadow-[0_4px_20px_rgba(106,13,173,0.3)] scale-[1.03] z-10' 
+    className={`w-full flex items-center space-x-4 px-4 md:px-5 py-3 md:py-3.5 rounded-xl transition-all duration-300 group ${active
+        ? 'bg-purpleheart text-white shadow-[0_4px_20px_rgba(106,13,173,0.3)] scale-[1.03] z-10'
         : 'hover:bg-oaklight/40 text-maple hover:text-white'
-    }`}
+      }`}
   >
     <span className={`transition-transform duration-300 ${active ? 'scale-110' : 'group-hover:translate-x-1'}`}>
       {icon}
