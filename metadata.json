@@ -1,0 +1,7 @@
+{
+  "name": "Controller Pro - Playground",
+  "description": "A comprehensive suite for controllers to manage multiple business profiles, invoicing, expenses, and project budgets with integrated Gemini AI insights and live audio assistance.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
