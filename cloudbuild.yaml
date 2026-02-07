@@ -24,3 +24,6 @@ steps:
 
 images:
   - 'gcr.io/gen-lang-client-0277867308/controller-pro-backend'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
